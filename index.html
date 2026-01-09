@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Домашна работа - Най-яката уеб страница - by Gosho Kostov </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .card-content {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .info-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .info-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .info-section p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .console-info {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        .console-info::before {
+            content: "Резултатите трябва да ги има вконзолата чрез Inspect и в прозореца по-долу";
+            display: block;
+            color: #4ec9b0;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .visual-console {
+            background: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .console-header {
+            background: #2d2d2d;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3d3d3d;
+        }
+
+        .console-title {
+            color: #d4d4d4;
+            font-weight: bold;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .console-title::before {
+            content: "▶";
+            color: #4ec9b0;
+            font-size: 0.8rem;
+        }
+
+        .console-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .console-btn {
+            background: #3d3d3d;
+            border: none;
+            color: #d4d4d4;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .console-btn:hover {
+            background: #4d4d4d;
+        }
+
+        .console-btn.clear {
+            color: #f48771;
+        }
+
+        .console-btn.clear:hover {
+            background: #4d2d2d;
+        }
+
+        .console-content {
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .console-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .console-content::-webkit-scrollbar-track {
+            background: #2d2d2d;
+        }
+
+        .console-content::-webkit-scrollbar-thumb {
+            background: #4d4d4d;
+            border-radius: 4px;
+        }
+
+        .console-content::-webkit-scrollbar-thumb:hover {
+            background: #5d5d5d;
+        }
+
+        .log-entry {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-left: 3px solid transparent;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .log-entry.info {
+            border-left-color: #4ec9b0;
+            background: rgba(78, 201, 176, 0.1);
+        }
+
+        .log-entry.success {
+            border-left-color: #4ec9b0;
+            background: rgba(78, 201, 176, 0.1);
+        }
+
+        .log-entry.data {
+            border-left-color: #569cd6;
+            background: rgba(86, 156, 214, 0.1);
+        }
+
+        .log-entry.error {
+            border-left-color: #f48771;
+            background: rgba(244, 135, 113, 0.1);
+        }
+
+        .log-label {
+            color: #4ec9b0;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .log-value {
+            color: #d4d4d4;
+        }
+
+        .log-object {
+            color: #ce9178;
+            margin-left: 20px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .log-array {
+            color: #ce9178;
+            margin-left: 20px;
+        }
+
+        .log-separator {
+            border-top: 1px solid #3d3d3d;
+            margin: 15px 0;
+            padding-top: 15px;
+        }
+
+        .console-minimized .console-content {
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Домашна работа - Най-яката уеб страница by Gosho Kostov</h1>
+            <p class="subtitle">Малко JavaScript, екстри</p>
+        </header>
+
+        <div class="info-section">
+            <h2>Инфо</h2>
+            <p>Демонстрация използването на ES6 модули, функции за масиви, обединяване на обекти и API заявки според задание.</p>
+            <p>Всички резултати от JavaScript функциите се извеждат в конзолата на браузъра и на прозореца.</p>
+            
+            <div class="console-info">
+                Използвам функции от домашното задание:
+                <br>• findMaxValueInArray() - намира макс стойност
+                <br>• findMinValueInArray() - намира мин стойност
+                <br>• findAverageValueInArray() - намира средна стойност
+                <br>• Обединяване на обекти person и personAddress
+                <br>• Зареждане на данни от JSONPlaceholder
+            </div>
+        </div>
+
+        <div class="visual-console" id="visualConsole">
+            <div class="console-header">
+                <div class="console-title">Резултати</div>
+                <div class="console-controls">
+                    <button class="console-btn clear" onclick="clearConsole()">Изчисти</button>
+                    <button class="console-btn" onclick="toggleConsole()">Скрий или Покажи</button>
+                </div>
+            </div>
+            <div class="console-content" id="consoleContent">
+                <div class="log-entry info">
+                    <span class="log-label">[лог инфо]</span>
+                    <span class="log-value">Конзолата е готова. Резултатите ще се появят извеждат тук...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cards-container">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=200&fit=crop" alt="JavaScript" class="card-image">
+                <h3 class="card-title">JavaScript Модули</h3>
+                <p class="card-content">
+                    ES6 модули за организиране на кода и готови елементи от безплатните библиотеки W3School. 
+                    Функциите са в utils.js и се импортват в main.js.
+                </p>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=200&fit=crop" alt="API" class="card-image">
+                <h3 class="card-title">API интегриране</h3>
+                <p class="card-content">
+                    Използва се JSONPlaceholder за fetch заявки 
+                </p>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=400&h=200&fit=crop" alt="Code" class="card-image">
+                <h3 class="card-title">функции за Масиви</h3>
+                <p class="card-content">
+                   - три функции за работа с масиви: намиране на максимална, 
+                    минимална и средна стойност.
+                </p>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Домашна работа - футърче, тук слагам копирайт</p>
+        </footer>
+    </div>
+
+    <script>
+        function addLogToConsole(message, type = 'info', data = null) {
+            const consoleContent = document.getElementById('consoleContent');
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            
+            let content = `<span class="log-label">[${type.toUpperCase()}]</span>`;
+            
+            if (data !== null) {
+                if (typeof data === 'object') {
+                    content += `<span class="log-value">${message}</span>`;
+                    content += `<div class="log-object">${JSON.stringify(data, null, 2)}</div>`;
+                } else if (Array.isArray(data)) {
+                    content += `<span class="log-value">${message}</span>`;
+                    content += `<div class="log-array">${JSON.stringify(data, null, 2)}</div>`;
+                } else {
+                    content += `<span class="log-value">${message}: ${data}</span>`;
+                }
+            } else {
+                content += `<span class="log-value">${message}</span>`;
+            }
+            
+            logEntry.innerHTML = content;
+            consoleContent.appendChild(logEntry);
+                    }
+
+        function addSeparator() {
+            const consoleContent = document.getElementById('consoleContent');
+            const separator = document.createElement('div');
+            separator.className = 'log-separator';
+            consoleContent.appendChild(separator);
+        }
+
+        function clearConsole() {
+            const consoleContent = document.getElementById('consoleContent');
+            consoleContent.innerHTML = '';
+            addLogToConsole('Чистене на конзола', 'инфо');
+        }
+
+        function toggleConsole() {
+            const console = document.getElementById('visualConsole');
+            console.classList.toggle('console-minimized');
+        }
+
+        window.visualConsole = {
+            log: addLogToConsole,
+            separator: addSeparator
+        };
+    </script>
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>
