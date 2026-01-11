@@ -50,14 +50,16 @@ async function fetchPosts() {
         const response = await fetch('https://jsonplaceholder.typicode.com/posts');
         const posts = await response.json();
         
-        const postsWithUserId3 = posts.filter(post => post.userId === 3);
+        const titlesWithUserId3 = posts
+            .filter(post => post.userId === 3)
+            .map(post => post.title);
         
         if (window.visualConsole) {
             window.visualConsole.separator();
         }
         logToBoth('Постове с userId: 3 ', 'инфо');
-        logToBoth(`Брой : ${postsWithUserId3.length}`, 'ТОП!');
-        logToBoth('Постове', 'данни', postsWithUserId3);
+        logToBoth(`Брой : ${titlesWithUserId3.length}`, 'ТОП!');
+        logToBoth('Постове', 'данни', titlesWithUserId3);
         
         return posts;
     } catch (error) {
